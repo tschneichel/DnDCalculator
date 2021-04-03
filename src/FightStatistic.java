@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.logging.*;
 
 public class FightStatistic {
 

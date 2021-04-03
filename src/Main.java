@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
@@ -8,8 +10,13 @@ public class Main {
 
     private static int numberOfSimulatedFights = 1000;
 
+    private static Logger logger = Logger.getGlobal();
+
     public static void main (String[] args){
         FightStatistic statistic = new FightStatistic();
+
+        // Modify Logger Level here if you want to see fight breakdowns
+        logger.setLevel(Level.OFF);
 
         for (int i = 0; i < numberOfSimulatedFights; i++){
             ArrayList<Character> playerCharacters = generateAllies();
@@ -19,13 +26,14 @@ public class Main {
             currentOutcome.calculateStatistics(statistic);
         }
 
-        System.out.println();
-        System.out.println("_______________________________________________________");
-        System.out.println();
+        logger.info("\n_______________________________________________________\n");
         statistic.generateReport();
     }
 
 
+    /*
+     * This function needs to be adapted to set the player characters
+     */
     private static ArrayList<Character> generateAllies(){
         Character barbarian = new Character(6, 2, 3, "Barbar");
         Character wizard = new Character(2, 6, 3, "Wizard");
@@ -38,6 +46,9 @@ public class Main {
         return playerCharacters;
     }
 
+    /*
+     * This function needs to be adapted to set the enemy characters
+     */
     private static ArrayList<Character> generateEnemies (boolean small, boolean big, boolean mage){
         if (small){
             ArrayList<Character> smallKobolds = new ArrayList<Character>();

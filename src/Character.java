@@ -1,3 +1,5 @@
+import java.util.logging.Logger;
+
 public class Character {
 
     public int body;
@@ -8,6 +10,7 @@ public class Character {
     public int currentHitpoints;
     public boolean isDead = false;
     public int initiative;
+    private Logger logger = Logger.getGlobal();
 
     public Character(int body, int mind, int charisma, String name){
         this.body = body;
@@ -24,19 +27,17 @@ public class Character {
 
     public void takeDamage(int damage){
         this.currentHitpoints -= damage;
-        System.out.println("Character " + name + " takes " + damage + " damage!");
+        logger.info("Character " + name + " takes " + damage + " damage!");
         checkDead();
     }
 
     public void checkDead(){
         if (this.currentHitpoints < 1){
             isDead = true;
-            System.out.println("Character " + this.name + " has died.");
-            System.out.println();
+            logger.info("Character " + this.name + " has died.\n");
         }
         else {
-            System.out.println("Character " + this.name + " has " + this.currentHitpoints + " hitpoints left.");
-            System.out.println();
+            logger.info("Character " + this.name + " has " + this.currentHitpoints + " hitpoints left.\n");
         }
     }
 

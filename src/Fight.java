@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class Fight {
 
@@ -20,6 +21,7 @@ public class Fight {
     private Random RNGGenerator = new Random();
     private boolean alliesDead = false;
     private boolean enemiesDead = false;
+    private Logger logger = Logger.getGlobal();
 
     public Fight(ArrayList<Character> alliedForces, ArrayList<Character> enemyForces){
         this.alliedForces = alliedForces;
@@ -47,11 +49,10 @@ public class Fight {
         while (! alliesDead && ! enemiesDead){
             roundCounter++;
             processFightTurn();
-            System.out.println("___________________________________________________________________");
-            System.out.println();
+            logger.info("___________________________________________________________________\n");
             checkAllDead();
         }
-        System.out.println("Fight ended after " + roundCounter +  " rounds.");
+        logger.info("Fight ended after " + roundCounter +  " rounds.");
         return processFightOutcome();
     }
 
@@ -65,18 +66,18 @@ public class Fight {
 
     private void printFightOutcome() {
         if (alliesDead){
-            System.out.println(ANSI_RED + "Oh no! The heroes have been wiped out! \n Surviving enemies:" + ANSI_RESET);
+            logger.info(ANSI_RED + "Oh no! The heroes have been wiped out! \n Surviving enemies:" + ANSI_RESET);
             for (int i = 0; i < enemyForces.size(); i++){
                 if (! enemyForces.get(i).isDead){
-                    System.out.println(enemyForces.get(i).name + " lives with " + enemyForces.get(i).currentHitpoints + " left from " + enemyForces.get(i).maxHitpoints + ".");
+                    logger.info(enemyForces.get(i).name + " lives with " + enemyForces.get(i).currentHitpoints + " left from " + enemyForces.get(i).maxHitpoints + ".");
                 }
             }
         }
         if (enemiesDead){
-            System.out.println(ANSI_GREEN + "The heroes emerged victorious!" + ANSI_RESET +  "\nSurviving heroes:");
+            logger.info(ANSI_GREEN + "The heroes emerged victorious!" + ANSI_RESET +  "\nSurviving heroes:");
             for (int i = 0; i < alliedForces.size(); i++){
                 if (! alliedForces.get(i).isDead){
-                    System.out.println(alliedForces.get(i).name + " lives with " + alliedForces.get(i).currentHitpoints + " hitpoints left from " + alliedForces.get(i).maxHitpoints + ".");
+                    logger.info(alliedForces.get(i).name + " lives with " + alliedForces.get(i).currentHitpoints + " hitpoints left from " + alliedForces.get(i).maxHitpoints + ".");
                 }
             }
         }
@@ -149,22 +150,22 @@ public class Fight {
         if (magicAttack){
             attackerValue = attacker.mind;
             defenderValue = defender.mind;
-            System.out.println(ANSI_BLUE + "Attacker " + attacker.name + " attacks " + defender.name + " using a magic attack!" + ANSI_RESET);
+            logger.info(ANSI_BLUE + "Attacker " + attacker.name + " attacks " + defender.name + " using a magic attack!" + ANSI_RESET);
         }
         else {
             attackerValue = attacker.body;
             defenderValue = defender.body;
-            System.out.println(ANSI_RED + "Attacker " + attacker.name + " attacks " + defender.name + " using a physical attack!" + ANSI_RESET);
+            logger.info(ANSI_RED + "Attacker " + attacker.name + " attacks " + defender.name + " using a physical attack!" + ANSI_RESET);
         }
         attackerValue += rollD6xTimes(1);
         defenderValue += rollD6xTimes(1);
-        System.out.println("ATTACK: " +attackerValue);
-        System.out.println("DEFENSE: " +defenderValue);
+        logger.info("ATTACK: " +attackerValue);
+        logger.info("DEFENSE: " +defenderValue);
         if (attackerValue > defenderValue){
             defender.takeDamage(attackerValue - defenderValue);
         }
         else {
-            System.out.println("Defender " + defender.name + " withstands the attack of " + attacker.name + "!");
+            logger.info("Defender " + defender.name + " withstands the attack of " + attacker.name + "!");
         }
     }
 }
